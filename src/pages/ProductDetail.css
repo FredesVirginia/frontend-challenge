@@ -1,4 +1,23 @@
-/* Product Detail Page Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999;
+}
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  min-width: 300px;
+  text-align: center;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 8px; right: 8px;
+  cursor: pointer;
+}/* Product Detail Page Styles */
 .product-detail-page {
   min-height: calc(100vh - 80px);
 }

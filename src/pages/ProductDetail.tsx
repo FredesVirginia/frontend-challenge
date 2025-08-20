@@ -4,14 +4,20 @@ import { products } from "../data/products";
 import { Product } from "../types/Product";
 import PricingCalculator from "../components/PricingCalculator";
 import "./ProductDetail.css";
+import { useCart } from "../context/CartContext";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedSize, setSelectedSize] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
+  const [addedInfo, setAddedInfo] = useState<{
+    name: string;
+    quantity: number;
+  } | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
-
+  const { addToCart } = useCart();
   useEffect(() => {
     if (id) {
       const foundProduct = products.find((p) => p.id === parseInt(id));
@@ -213,10 +219,12 @@ const ProductDetail = () => {
                   className={`btn btn-primary cta1 ${
                     !canAddToCart ? "disabled" : ""
                   }`}
-                  disabled={!canAddToCart}
-                  onClick={() =>
-                    alert("Función de agregar al carrito por implementar")
-                  }
+                  onClick={() => {
+                    addToCart(product, quantity);
+                    setAddedInfo({ name: product.name, quantity });
+                    setShowModal(true);
+                  }}
+                  disabled={quantity < 1 || quantity > product.stock}
                 >
                   <span className="material-icons">shopping_cart</span>
                   {canAddToCart ? "Agregar al carrito" : "No disponible"}
@@ -239,6 +247,35 @@ const ProductDetail = () => {
           <PricingCalculator product={product} />
         </div>
       </div>
+
+      {showModal && addedInfo && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <span
+              className="material-icons modal-close"
+              onClick={() => setShowModal(false)}
+            >
+              close
+            </span>
+            <h2>Producto agregado al carrito</h2>
+            <p>{addedInfo.name}</p>
+            <p>Cantidad: {addedInfo.quantity}</p>
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowModal(false)}
+            >
+              Seguir comprando
+            </button>
+            <Link
+              to="/cart"
+              className="btn btn-secondary"
+              onClick={() => setShowModal(false)}
+            >
+              Ir al carrito
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
