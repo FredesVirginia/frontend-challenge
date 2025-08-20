@@ -29,7 +29,7 @@ const ProductFilters = ({
               type="text"
               placeholder="Buscar productos, SKU fff..."
               value={searchQuery}
-              onChange={(e) => { onSearchChange(e.target.value), console.log(e.target.value) }}
+              onChange={(e) => { onSearchChange(e.target.value)}}
               className="search-input p1"
             />
             {searchQuery && (

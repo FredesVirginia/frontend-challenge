@@ -65,7 +65,7 @@ const calculatePrice = (qty: number) => {
               onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
               className="quantity-input p1"
               min="1"
-              max="10000"
+              max={product.stock}
             />
             <span className="quantity-unit l1">unidades</span>
           </div>
@@ -154,7 +154,7 @@ const calculatePrice = (qty: number) => {
             }}
           >
             <span className="material-icons">email</span>
-            Solicitar cotización oficial
+            Solicitar cotización
           </button>
           
           <button 

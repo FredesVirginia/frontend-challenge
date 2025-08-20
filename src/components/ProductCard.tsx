@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Product } from '../types/Product'
 import './ProductCard.css'
+import { formatPrice } from '../utils/utils'
 
 interface ProductCardProps {
   product: Product
@@ -22,10 +23,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     }
   }
 
-  // Format price for display
-  const formatPrice = (price: number) => {
-    return `$${price.toLocaleString()}` // Missing currency and proper formatting
-  }
+
 
   // Check stock availability
   const getStockStatus = (stock: number) => {
