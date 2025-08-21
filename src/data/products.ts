@@ -1,12 +1,9 @@
 
-import { Product, Category, Supplier, CategoryType } from '../types/Product'
+
+import { Product, Category, Supplier, CategoryType, SupplierType } from '../types/Product'
 
 // Proveedores
-export const suppliers: Supplier[] = [
-  { id: 'smart-gifts', name: 'Smart Gifts', products: 12 },
-  { id: 'top-gifts', name: 'Top Gifts', products: 5 },
-  { id: 'qr-code', name: 'QR Code', products: 3 }
-]
+
 
 // Product catalog data
 export const products: Product[] = [
@@ -390,4 +387,15 @@ export const categories: Category[] = [
   { id: CategoryType.Textile, name: 'Textil', icon: 'checkroom', count: productFilterByCategory(CategoryType.Textile) },
   { id: CategoryType.Office, name: 'Oficina', icon: 'work', count: productFilterByCategory(CategoryType.Office) },
   { id: CategoryType.Home, name: 'Hogar', icon: 'home', count: productFilterByCategory(CategoryType.Home) }
+]
+
+const productFilterByProveedor = ( suppliers : SupplierType)=>{
+ 
+  return products.filter(
+     product =>  product.supplier === suppliers).length
+}
+export const suppliers: Supplier[] = [
+  { id: 'smart-gifts', name: 'Smart Gifts', products: productFilterByProveedor(SupplierType.SmartGifts) },
+  { id: 'top-gifts', name: 'Top Gifts', products: productFilterByProveedor(SupplierType.TopGifts) },
+  { id: 'qr-code', name: 'QR Code', products: productFilterByProveedor(SupplierType.QrCode) }
 ]

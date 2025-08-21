@@ -1,26 +1,32 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 import ProductFilters from "../components/ProductFilters";
 import { products as allProducts } from "../data/products";
-import { Product } from "../types/Product";
+import { Product, SupplierType } from "../types/Product";
 import "./ProductList.css";
 
 const ProductList = () => {
   const [filteredProducts, setFilteredProducts] =
     useState<Product[]>(allProducts);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedSuppliers, setSelectedSuppliers] = useState<SupplierType>(
+    SupplierType.Default
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
 
-  useEffect(()=>{
-    const allProductsFiltered = allProducts.filter((products)=>( products.status!== "pending" && products.status !== "inactive"))
-    setFilteredProducts(allProductsFiltered)
-  }, [])
-
   // Filter and sort products based on criteria
-  const filterProducts = (category: string, search: string, sort: string) => {
-    let filtered = [...allProducts];
-
+  const filterProducts = (
+    category: string,
+    search: string,
+    sort: string,
+    supplier: string
+  ) => {
+    let filtered = [
+      ...allProducts.filter(
+        (p) => p.status !== "pending" && p.status !== "inactive"
+      ),
+    ];
     // Category filter
     if (category !== "all") {
       filtered = filtered.filter((product) => product.category === category);
@@ -51,6 +57,14 @@ const ProductList = () => {
       });
     }
 
+    if (supplier && supplier !== SupplierType.Default) {
+      if (supplier) {
+        filtered = filtered.filter(
+          (product) => product.supplier && product.supplier === supplier
+        );
+      }
+    }
+
     // Sorting logic
     switch (sort) {
       case "name":
@@ -74,17 +88,22 @@ const ProductList = () => {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    filterProducts(category, searchQuery, sortBy);
+    filterProducts(category, searchQuery, sortBy, selectedSuppliers);
+  };
+
+  const handleSuSupplierChange = (supplier: SupplierType) => {
+    setSelectedSuppliers(supplier);
+    filterProducts(selectedCategory, searchQuery, sortBy, supplier);
   };
 
   const handleSearchChange = (search: string) => {
     setSearchQuery(search);
-    filterProducts(selectedCategory, search, sortBy);
+    filterProducts(selectedCategory, search, sortBy, selectedSuppliers);
   };
 
   const handleSortChange = (sort: string) => {
     setSortBy(sort);
-    filterProducts(selectedCategory, searchQuery, sort);
+    filterProducts(selectedCategory, searchQuery, sort, selectedSuppliers);
   };
 
   return (
@@ -116,9 +135,11 @@ const ProductList = () => {
         {/* Filters */}
         <ProductFilters
           selectedCategory={selectedCategory}
+          selectedSupplier={selectedSuppliers}
           searchQuery={searchQuery}
           sortBy={sortBy}
           onCategoryChange={handleCategoryChange}
+          onSuppliersChange={handleSuSupplierChange}
           onSearchChange={handleSearchChange}
           onSortChange={handleSortChange}
         />
@@ -137,7 +158,7 @@ const ProductList = () => {
                 onClick={() => {
                   setSearchQuery("");
                   setSelectedCategory("all");
-                  filterProducts("all", "", sortBy);
+                  filterProducts("all", "", sortBy, SupplierType.Default);
                 }}
               >
                 Ver todos los productos

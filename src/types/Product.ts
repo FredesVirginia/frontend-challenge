@@ -6,6 +6,13 @@ export enum CategoryType {
   Home = "home"
 }
 
+export enum SupplierType {
+  Default = "default",
+  SmartGifts = "smart-gifts",
+  TopGifts = "top-gifts",
+  QrCode = "qr-code",
+  }
+
 export interface Product {
   id: number
   name: string
