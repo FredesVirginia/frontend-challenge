@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import ProductFilters from "../components/ProductFilters";
 import { products as allProducts } from "../data/products";
 import { Product, SupplierType } from "../types/Product";
+
 import "./ProductList.css";
 
 const ProductList = () => {
@@ -23,9 +24,7 @@ const ProductList = () => {
     supplier: string
   ) => {
     let filtered = [
-      ...allProducts.filter(
-        (p) => p.status !== "pending" && p.status !== "inactive"
-      ),
+      ...allProducts
     ];
     // Category filter
     if (category !== "all") {

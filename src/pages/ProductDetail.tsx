@@ -231,7 +231,7 @@ const ProductDetail = () => {
                 </button>
 
                 <button
-                  className="btn btn-secondary cta1"
+                  className="btn  cta1"
                   onClick={() => alert("Función de cotización por implementar")}
                 >
                   <span className="material-icons">calculate</span>

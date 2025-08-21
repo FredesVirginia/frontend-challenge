@@ -1,3 +1,144 @@
+/* Modal Cotizacion*/
+/* Modal container */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal content */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 600px;
+  max-width: 90%;          /* Para pantallas pequeñas */
+  max-height: 80vh;        /* 🔥 Limita la altura a 80% de la pantalla */
+  overflow-y: auto;        /* 🔥 Activa scroll vertical si es necesario */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.modal-content h2 {
+  margin-bottom: 1rem;
+  color: #4a148c;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #4a148c;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #6a1b9a;
+}
+
+.btn-danger {
+  background: #e53935;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c62828;
+}
+
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(1px) scale(.99); }
+
+
+.price-breaks {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.price-breaks li {
+  list-style: none;
+  background: linear-gradient(135deg, #ffffff, #f3f3f3);
+  border-left: 5px solid #007bff;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: transform 0.2s ease, background 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-breaks li:hover {
+  transform: translateX(5px);
+  background: #eef6ff;
+}
+
+.price-breaks li em {
+  display: block;
+  margin-left: 12px;
+  color: #007bff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+.price-breaks li em {
+  color: #16a34a; /* verde para el descuento */
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.modal-content h4 {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #03020e; /* un morado/azul llamativo */
+  padding-bottom: 4px;
+  margin-bottom: 0.8rem;
+}
+
+.btn-export { background: #4caf50; color: #fff; }
+.btn-close  { background: #e53935; color: #fff; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Product Card Component Styles */
 .product-card {
   background: white;

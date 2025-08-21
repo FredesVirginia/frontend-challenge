@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { Product } from "../types/Product";
-import { formatPrice } from "../utils/utils";
 import "./PricingCalculator.css";
 
+import { formatPrice } from "../utils/utils";
 interface PricingCalculatorProps {
   product: Product;
+  quantityQuote: number;
+  onPricingChange: (data: {
+    quantity: number;
+    subtotal: number;
+    total: number;
+  }) => void;
 }
-
-const PricingCalculator = ({ product }: PricingCalculatorProps) => {
+export const PricingQuote = ({ product   , onPricingChange}: PricingCalculatorProps) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedBreak, setSelectedBreak] = useState<number>(0);
-  const [showQuote, setShowQuote] = useState(false);
 
   // Calculate best pricing for quantity
   const calculatePrice = (qty: number) => {
@@ -54,31 +58,10 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
   return (
     <div className="pricing-calculator">
       <div className="calculator-header">
-        <h3 className="calculator-title p1-medium">Calculadora de Precios</h3>
-        <p className="calculator-subtitle l1">
-          Calcula el precio según la cantidad que necesitas
-        </p>
+        <h3 className="calculator-title p1-medium">Cotizacion</h3>
       </div>
 
       <div className="calculator-content">
-        {/* Quantity Input */}
-        <div className="quantity-section">
-          <label className="quantity-label p1-medium">Cantidad</label>
-          <div className="quantity-input-group">
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) =>
-                setQuantity(Math.max(1, parseInt(e.target.value) || 1))
-              }
-              className="quantity-input p1"
-              min="1"
-              max={product.stock}
-            />
-            <span className="quantity-unit l1">unidades</span>
-          </div>
-        </div>
-
         {/* Price Breaks */}
         {product.priceBreaks && product.priceBreaks.length > 0 && (
           <div className="price-breaks-section">
@@ -116,7 +99,31 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
             </div>
           </div>
         )}
+        {/* Quantity Input */}
+        <div className="quantity-section">
+          <label className="quantity-label p1-medium">Cantidad</label>
+          <div className="quantity-input-group">
+            <input
+              type="number"
+              value={quantity}
+              onChange={(e) => {
+                const qty = Math.max(1, parseInt(e.target.value) || 1);
+                setQuantity(qty);
 
+                const subtotal = qty * product.basePrice;
+                const total = subtotal; 
+
+                
+                  onPricingChange({ quantity: qty, subtotal, total });
+                
+              }}
+              className="quantity-input p1"
+              min="1"
+              max={product.stock}
+            />
+            <span className="quantity-unit l1">unidades</span>
+          </div>
+        </div>
         {/* Price Summary */}
         <div className="price-summary">
           <div className="summary-row">
@@ -151,62 +158,7 @@ const PricingCalculator = ({ product }: PricingCalculatorProps) => {
             </span>
           </div>
         </div>
-
-        {/* Actions */}
-        <div className="calculator-actions">
-          <button
-            className="btn  cta1"
-            onClick={() => {
-              setShowQuote(true); // Mostrar el PricingQuote
-            }}
-          >
-            <span className="material-icons">email</span>
-            Solicitar cotización
-          </button>
-
-          <button
-            className="btn btn-primary cta1"
-            onClick={() => {
-              // Add to cart functionality
-              alert("Función de agregar al carrito por implementar");
-            }}
-          >
-            <span className="material-icons">shopping_cart</span>
-            Agregar al carrito
-          </button>
-        </div>
-
-        {/* Additional Info */}
-        <div className="additional-info">
-          <div className="info-item">
-            <span className="material-icons">local_shipping</span>
-            <div className="info-content">
-              <span className="info-title l1">Envío gratis</span>
-              <span className="info-detail l1">En pedidos sobre $50.000</span>
-            </div>
-          </div>
-
-          <div className="info-item">
-            <span className="material-icons">schedule</span>
-            <div className="info-content">
-              <span className="info-title l1">Tiempo de producción</span>
-              <span className="info-detail l1">7-10 días hábiles</span>
-            </div>
-          </div>
-
-          <div className="info-item">
-            <span className="material-icons">verified</span>
-            <div className="info-content">
-              <span className="info-title l1">Garantía</span>
-              <span className="info-detail l1">30 días de garantía</span>
-            </div>
-          </div>
-        </div>
-
-        
       </div>
     </div>
   );
 };
-
-export default PricingCalculator;
